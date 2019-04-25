@@ -20,7 +20,6 @@ namespace CatanScoreboard.Controllers
         {
             var allPlayers = _context.Players.ToList();
             
-
             LeaderViewModel vm = new LeaderViewModel();
             vm.Players = new List<PlayerViewModel>();
 
@@ -30,8 +29,9 @@ namespace CatanScoreboard.Controllers
                 PlayerViewModel p = new PlayerViewModel();
                 //Get scores
                 var scores = _context.PlayerScores.Where(j => j.Player.Id == item.Id).ToList();
-
+                
                 p.Id = item.Id;
+                var s = _context.FinishedGames.ToList();
                 p.Name = item.Name;
                 p.TournamentPoints = scores.Sum(j => j.TournamentPoints);
                 p.Wins = scores.Count(j => j.Placed == 1);

@@ -13,26 +13,36 @@ namespace CatanScoreboard.Models
             PlayerList = new List<PlayerViewModel>();
         }
         public List<PlayerViewModel> PlayerList { get; set; }
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
+        [Required]
         [Display(Name = "Date of game")]
         public DateTime GameDateTime { get; set; }
         [Display(Name = "Location where played")]
+        [Required]
         public string Location { get; set; }
         [Display(Name = "Player1 Name")]
+        [Required]
         public int Player1Name { get; set; }
         [Display(Name = "Player1 Score")]
+        [Required]
         public int Player1Score { get; set; }
         [Display(Name = "Player2 Name")]
+        [Required]
         public int Player2Name { get; set; }
         [Display(Name = "Player2 Score")]
+        [Required]
         public int Player2Score { get; set; }
         [Display(Name = "Player3 Name")]
+        [Required]
         public int Player3Name { get; set; }
         [Display(Name = "Player3 Score")]
+        [Required]
         public int Player3Score { get; set; }
         [Display(Name = "Player4 Name")]
+        [Required]
         public int Player4Name { get; set; }
         [Display(Name = "Player4 Score")]
+        [Required]
         public int Player4Score { get; set; }
         [Display(Name = "Player5 Name")]
         public int Player5Name { get; set; }

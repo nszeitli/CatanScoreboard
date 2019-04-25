@@ -49,6 +49,9 @@ namespace CatanScoreboard.Controllers
             FinishedGameView finishedGameVM = new FinishedGameView();
             var players =  _context.Players.ToList();
             List<PlayerViewModel> vmList = new List<PlayerViewModel>();
+            finishedGameVM.GameDateTime = DateTime.Today;
+            finishedGameVM.GameDateTime = finishedGameVM.GameDateTime.AddHours(DateTime.Now.Hour);
+            finishedGameVM.GameDateTime = finishedGameVM.GameDateTime.AddMinutes(DateTime.Now.Minute);
             foreach (var item in players)
             {
                 var vm = new PlayerViewModel();
@@ -76,94 +79,21 @@ namespace CatanScoreboard.Controllers
             if (VM != null && VM.Player1Name > 0)
             {
                 //create list
-                List<PlayerScore> psList = new List<PlayerScore>();
-                if (VM.Player1Score > 0)
-                {
-                    PlayerScore p1 = new PlayerScore(); p1.VictoryPoints = VM.Player1Score;
-                    var p = _context.Players.First(i => i.Id == VM.Player1Name);
-                    
-                    if (p != null)
-                    {
-                        p1.Player = p;
-                    }
-                    psList.Add(p1);
-                }
-
-                if (VM.Player2Score > 0)
-                {
-                    PlayerScore p2 = new PlayerScore(); p2.VictoryPoints = VM.Player2Score;
-                    var p = _context.Players.First(i => i.Id == VM.Player2Name);
-
-                    if (p != null)
-                    {
-                        p2.Player = p;
-                    }
-                    psList.Add(p2);
-                }
-
-                if (VM.Player3Score > 0)
-                {
-                    PlayerScore p3 = new PlayerScore(); p3.VictoryPoints = VM.Player3Score;
-                    var p = _context.Players.First(i => i.Id == VM.Player3Name);
-
-                    if (p != null)
-                    {
-                        p3.Player = p;
-                    }
-                    psList.Add(p3);
-                }
-
-                if (VM.Player4Score > 0)
-                {
-                    PlayerScore p4 = new PlayerScore(); p4.VictoryPoints = VM.Player4Score;
-                    var p = _context.Players.First(i => i.Id == VM.Player4Name);
-
-                    if (p != null)
-                    {
-                        p4.Player = p;
-                    }
-                    psList.Add(p4);
-                }
-
-                if (VM.Player5Score > 0)
-                {
-                    PlayerScore p5 = new PlayerScore(); p5.VictoryPoints = VM.Player5Score;
-                    var p = _context.Players.First(i => i.Id == VM.Player5Name);
-
-                    if (p != null)
-                    {
-                        p5.Player = p;
-                    }
-                    psList.Add(p5);
-                }
-
-                if (VM.Player6Score > 0)
-                {
-                    PlayerScore p6 = new PlayerScore(); p6.VictoryPoints = VM.Player6Score;
-                    var p = _context.Players.First(i => i.Id == VM.Player6Name);
-
-                    if (p != null)
-                    {
-                        p6.Player = p;
-                    }
-                    psList.Add(p6);
-                }
-              
-
-
+                List<PlayerScore> psList = PlayerListFromVM(VM);
+                
                 //add data
                 fgEntity.GameDateTime = VM.GameDateTime;
                 fgEntity.Location = VM.Location;
                 
-
                 //Get placings
                 Helpers.TournamentHelper th = new Helpers.TournamentHelper();
                 psList = th.GetPlacingsAndPoints(psList);
 
+                //Save data
                 fgEntity.PlayerScores = psList;
                 _context.FinishedGames.Add(fgEntity);
-
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(fgEntity);
@@ -252,6 +182,84 @@ namespace CatanScoreboard.Controllers
         private bool FinishedGameExists(int id)
         {
             return _context.FinishedGames.Any(e => e.Id == id);
+        }
+
+        private List<PlayerScore> PlayerListFromVM(FinishedGameView VM)
+        {
+            List<PlayerScore> psList = new List<PlayerScore>();
+
+            if (VM.Player1Score > 0)
+            {
+                PlayerScore p1 = new PlayerScore(); p1.VictoryPoints = VM.Player1Score;
+                var p = _context.Players.First(i => i.Id == VM.Player1Name);
+
+                if (p != null)
+                {
+                    p1.Player = p;
+                }
+                psList.Add(p1);
+            }
+
+            if (VM.Player2Score > 0)
+            {
+                PlayerScore p2 = new PlayerScore(); p2.VictoryPoints = VM.Player2Score;
+                var p = _context.Players.First(i => i.Id == VM.Player2Name);
+
+                if (p != null)
+                {
+                    p2.Player = p;
+                }
+                psList.Add(p2);
+            }
+
+            if (VM.Player3Score > 0)
+            {
+                PlayerScore p3 = new PlayerScore(); p3.VictoryPoints = VM.Player3Score;
+                var p = _context.Players.First(i => i.Id == VM.Player3Name);
+
+                if (p != null)
+                {
+                    p3.Player = p;
+                }
+                psList.Add(p3);
+            }
+
+            if (VM.Player4Score > 0)
+            {
+                PlayerScore p4 = new PlayerScore(); p4.VictoryPoints = VM.Player4Score;
+                var p = _context.Players.First(i => i.Id == VM.Player4Name);
+
+                if (p != null)
+                {
+                    p4.Player = p;
+                }
+                psList.Add(p4);
+            }
+
+            if (VM.Player5Score > 0)
+            {
+                PlayerScore p5 = new PlayerScore(); p5.VictoryPoints = VM.Player5Score;
+                var p = _context.Players.First(i => i.Id == VM.Player5Name);
+
+                if (p != null)
+                {
+                    p5.Player = p;
+                }
+                psList.Add(p5);
+            }
+
+            if (VM.Player6Score > 0)
+            {
+                PlayerScore p6 = new PlayerScore(); p6.VictoryPoints = VM.Player6Score;
+                var p = _context.Players.First(i => i.Id == VM.Player6Name);
+
+                if (p != null)
+                {
+                    p6.Player = p;
+                }
+                psList.Add(p6);
+            }
+            return psList;
         }
     }
 }
