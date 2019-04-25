@@ -1,0 +1,125 @@
+﻿@model CatanScoreboard.Models.FinishedGameView
+
+@{
+    ViewData["Title"] = "Add new finished Catan game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h1>Add new finished Catan game</h1>
+
+<h4>Finished game details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GameDateTime" class="control-label"></label>
+                <input asp-for="GameDateTime" class="form-control" />
+                <span asp-validation-for="GameDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <h4>1st Player</h4>
+            <div class="form-group">
+                <select asp-for="Player1Name"
+                        asp-items="@(new SelectList(Model.PlayerList,"Id","Name"))">
+                    <option>Select player</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                Victory Points:
+                <input asp-for="Player1Score" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <h4>2nd Player</h4>
+            <div class="form-group">
+                <select asp-for="Player2Name"
+                        asp-items="@(new SelectList(Model.PlayerList,"Id","Name"))">
+                    <option>Select player</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                Victory Points:
+                <input asp-for="Player2Score" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <h4>3rd Player</h4>
+            <div class="form-group">
+                <select asp-for="Player3Name"
+                        asp-items="@(new SelectList(Model.PlayerList,"Id","Name"))">
+                    <option>Select player</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                Victory Points:
+                <input asp-for="Player3Score" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <h4>4th Player</h4>
+            <div class="form-group">
+                <select asp-for="Player4Name"
+                        asp-items="@(new SelectList(Model.PlayerList,"Id","Name"))">
+                    <option>Select player</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                Victory Points:
+                <input asp-for="Player4Score" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <h4>5th Player (Can leave blank)</h4>
+            <div class="form-group">
+                <select asp-for="Player5Name"
+                        asp-items="@(new SelectList(Model.PlayerList,"Id","Name"))">
+                    <option>Select player</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                Victory Points: 
+                <input asp-for="Player5Score" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <h4>6th Player (Can leave blank)</h4>
+            <div class="form-group">
+                <select asp-for="Player6Name"
+                        asp-items="@(new SelectList(Model.PlayerList,"Id","Name"))">
+                    <option>Select player</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                Victory Points:
+                <input asp-for="Player6Score" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Add game" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

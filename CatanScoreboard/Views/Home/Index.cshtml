@@ -1,0 +1,33 @@
+﻿@model CatanScoreboard.Models.LeaderViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Catan Scoreboard</h1>
+    <p>PLs no cheat</p>
+</div>
+
+<section>
+    <table class="table">
+        <tr>
+            <td>Current Rank</td>
+            <td>Player Name</td>
+            <td>Tournament Points</td>
+            <td>Wins</td>
+            <td>Games</td>
+            <td>Avg Points</td>
+        </tr>
+        @foreach (var p in Model.Players)
+        {
+            <tr>
+                <td>@p.CurrentRank</td>
+                <td>@p.Name</td>
+                <td>@p.TournamentPoints</td>
+                <td>@p.Wins</td>
+                <td>@p.Games</td>
+                <td>@p.AvgPoints</td>
+            </tr>
+        }
+    </table>
+</section>
