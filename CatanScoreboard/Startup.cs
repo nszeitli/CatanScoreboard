@@ -39,6 +39,7 @@ namespace CatanScoreboard
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -46,7 +47,7 @@ namespace CatanScoreboard
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -72,6 +73,38 @@ namespace CatanScoreboard
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            CreateUserRoles(services).Wait();
         }
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            IdentityResult roleResult;
+            //Adding Admin Role
+            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
+            if (!roleCheck)
+            {
+                //create the roles and seed them to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            //Assign Admin role to the main User here we have given our newly registered 
+            //login id for Admin management
+            try
+            {
+                IdentityUser user = await UserManager.FindByEmailAsync("nszeitli@gmail.com");
+                await UserManager.AddToRoleAsync(user, "Admin");
+
+                IdentityUser christian = await UserManager.FindByEmailAsync("levymetal@gmail.com");
+                await UserManager.AddToRoleAsync(christian, "Admin");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Admins setup already...can comment out this code");
+            }
+            
+        }
+
     }
 }

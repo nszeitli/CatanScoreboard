@@ -28,7 +28,7 @@ namespace CatanScoreboard.Controllers
         }
 
         // GET: Players/Details/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -71,7 +71,7 @@ namespace CatanScoreboard.Controllers
         }
 
         // GET: Players/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,7 +92,7 @@ namespace CatanScoreboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email")] Player player)
         {
             if (id != player.Id)
@@ -124,7 +124,7 @@ namespace CatanScoreboard.Controllers
         }
 
         // GET: Players/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,7 +145,7 @@ namespace CatanScoreboard.Controllers
         // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var player = await _context.Players.FindAsync(id);

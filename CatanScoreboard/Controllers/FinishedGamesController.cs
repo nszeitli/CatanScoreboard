@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CatanScoreboard.Data;
 using CatanScoreboard.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CatanScoreboard.Controllers
 {
@@ -26,6 +27,7 @@ namespace CatanScoreboard.Controllers
         }
 
         // GET: FinishedGames/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +46,7 @@ namespace CatanScoreboard.Controllers
         }
 
         // GET: FinishedGames/Create
+        [Authorize]
         public IActionResult Create()
         {
             FinishedGameView finishedGameVM = new FinishedGameView();
@@ -73,6 +76,7 @@ namespace CatanScoreboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create( FinishedGameView VM)
         {
             FinishedGame fgEntity = new FinishedGame();
@@ -100,6 +104,7 @@ namespace CatanScoreboard.Controllers
         }
 
         // GET: FinishedGames/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -120,6 +125,7 @@ namespace CatanScoreboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,GameDateTime,Location")] FinishedGame finishedGame)
         {
             if (id != finishedGame.Id)
@@ -151,6 +157,7 @@ namespace CatanScoreboard.Controllers
         }
 
         // GET: FinishedGames/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -171,6 +178,7 @@ namespace CatanScoreboard.Controllers
         // POST: FinishedGames/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var finishedGame = _context.FinishedGames.Include(i => i.PlayerScores).Where(i => i.Id == id).FirstOrDefault();
